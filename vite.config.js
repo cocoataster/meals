@@ -13,10 +13,10 @@ function clientRoutes() {
   return [...source.matchAll(/\bpath="\/([^"]+)"/g)].map((match) => match[1])
 }
 
-// Copy the built SPA shell to each client route and to 404.html. GitHub Pages
-// serves a directory index for /privacy and /terms (HTTP 200) and uses
-// 404.html for any other deep link, while the browser URL stays intact so
-// React Router can render the matching page.
+// GitHub Pages serves privacy.html at /privacy (HTTP 200, no redirect), which
+// is how https://cocoataster.com/impulses/privacy is published. A privacy/
+// directory does not: /privacy/ is a different path and /privacy still 404s.
+// 404.html covers any other client route.
 function githubPagesSpaFallback() {
   return {
     name: 'github-pages-spa-fallback',
@@ -26,7 +26,7 @@ function githubPagesSpaFallback() {
       const indexPath = resolve(options.dir, 'index.html')
       copyFileSync(indexPath, resolve(options.dir, '404.html'))
       for (const route of clientRoutes()) {
-        const target = resolve(options.dir, route, 'index.html')
+        const target = resolve(options.dir, `${route}.html`)
         mkdirSync(dirname(target), { recursive: true })
         copyFileSync(indexPath, target)
       }
