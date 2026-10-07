@@ -1,79 +1,101 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import appIcon from '../assets/appicon.png';
+import { motion } from 'framer-motion'
+import { BatteryFull, Calendar, Flame, List, Plus, Search, Settings, Signal, SlidersHorizontal, Timer, Wifi } from 'lucide-react'
+import pancakes from '../assets/meals/pancakes.jpg'
+import noodles from '../assets/meals/noodles.jpg'
+import gardenBowl from '../assets/meals/garden-bowl.jpg'
+import pastaNight from '../assets/meals/pasta-night.jpg'
+
+const Rise = motion.div
+
+const meals = [
+  { name: 'Pancakes', time: '15 min', kcal: '420', image: pancakes },
+  { name: 'Noodles', time: '25 min', kcal: '680', image: noodles },
+  { name: 'Garden Bowl', time: '12 min', kcal: '310', image: gardenBowl },
+  { name: 'Pasta Night', time: '40 min', kcal: '720', image: pastaNight },
+]
 
 export function PhoneFrame({ children }) {
-    return (
-        <div className="relative mx-auto border-zinc-800 dark:border-zinc-800 bg-zinc-900 border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl overflow-hidden ring-1 ring-white/10">
-            {/* Dynamic Island */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-[32px] w-[120px] bg-black rounded-b-[18px] z-20 flex items-center justify-center overflow-hidden">
-                {/* Camera dot */}
-                <div className="w-[8px] h-[8px] rounded-full bg-[#1c1c1c] ml-[60px]"></div>
-            </div>
-
-            {/* Screen Content */}
-            <div className="rounded-[2rem] overflow-hidden w-full h-full bg-white dark:bg-black relative">
-
-                {/* Status Bar Mockup */}
-                <div className="absolute top-2 w-full px-6 flex justify-between text-[10px] font-medium text-black dark:text-white z-10 opacity-80">
-                    <span>9:41</span>
-                    <div className="flex gap-1">
-                        <span>Signal</span>
-                        <span>Wifi</span>
-                        <span>100%</span>
-                    </div>
-                </div>
-
-                {/* Content Container */}
-                <div className="h-full w-full overflow-y-auto no-scrollbar pt-12 pb-4">
-                    {children}
-                </div>
-            </div>
-
-            {/* Side Buttons (Visual Only) */}
-            <div className="absolute top-[80px] -left-[17px] w-[3px] h-[26px] bg-zinc-700 rounded-l-lg"></div>
-            <div className="absolute top-[120px] -left-[17px] w-[3px] h-[45px] bg-zinc-700 rounded-l-lg"></div>
-            <div className="absolute top-[175px] -left-[17px] w-[3px] h-[45px] bg-zinc-700 rounded-l-lg"></div>
-            <div className="absolute top-[120px] -right-[17px] w-[3px] h-[65px] bg-zinc-700 rounded-r-lg"></div>
-        </div>
-    );
+  return (
+    <div className="relative mx-auto h-[640px] w-[300px] overflow-hidden rounded-[2.6rem] border-[14px] border-zinc-900 bg-zinc-900 shadow-2xl ring-1 ring-white/10">
+      <div className="absolute left-1/2 top-0 z-20 flex h-[28px] w-[108px] -translate-x-1/2 items-center justify-end rounded-b-[16px] bg-black pr-3">
+        <div className="h-[8px] w-[8px] rounded-full bg-[#1c1c1c]" />
+      </div>
+      <div className="absolute left-0 right-0 top-2 z-10 flex items-center justify-between px-5 text-[10px] font-extrabold text-[var(--ink)]">
+        <span>9:41</span>
+        <span className="flex items-center gap-1">
+          <Signal size={10} />
+          <Wifi size={10} />
+          <BatteryFull size={12} />
+        </span>
+      </div>
+      <div className="h-full w-full overflow-hidden bg-[var(--canvas)]">
+        {children}
+      </div>
+    </div>
+  )
 }
 
-export function AppScreenshotPlaceholder() {
-    return (
-        <div className="flex flex-col h-full px-4">
-            <div className="flex justify-between items-end mb-6">
-                <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-orange-600">Meals</h1>
-                <div className="w-8 h-8 rounded-lg overflow-hidden border border-zinc-100 dark:border-zinc-800 flex items-center justify-center">
-                    <img src={appIcon} alt="Logo" className="w-full h-full object-cover" />
-                </div>
-            </div>
-
-            {/* List Placeholders */}
-            <div className="space-y-4">
-                {['Monday', 'Tuesday', 'Wednesday', 'Thursday'].map((day, i) => (
-                    <motion.div
-                        key={day}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
-                    >
-                        <div className="flex justify-between mb-2">
-                            <span className="font-semibold text-sm">{day}</span>
-                        </div>
-                        <div className="flex gap-2">
-                            <div className="h-8 w-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-xs">🥗</div>
-                            <div className="h-2 w-24 bg-zinc-200 dark:bg-zinc-700 rounded self-center"></div>
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
-
-            {/* FAB */}
-            <div className="absolute bottom-6 right-6 w-14 h-14 bg-yellow-500 rounded-full flex items-center justify-center shadow-lg text-black text-2xl font-light">
-                +
-            </div>
+function MealCard({ meal }) {
+  return (
+    <div className="overflow-hidden rounded-[22px] bg-white/80 shadow-[0_10px_18px_rgba(0,0,0,0.16)] dark:bg-white/10">
+      <div className="relative aspect-square">
+        <img src={meal.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-x-1.5 bottom-1.5 flex items-center justify-between gap-1">
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-white/80 px-1.5 py-0.5 text-[8px] font-extrabold text-zinc-900">
+            <Timer size={8} className="text-teal-600" />
+            {meal.time}
+          </span>
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-white/80 px-1.5 py-0.5 text-[8px] font-extrabold text-zinc-900">
+            <Flame size={8} className="text-orange-500" />
+            {meal.kcal}
+          </span>
         </div>
-    )
+      </div>
+      <p className="px-2.5 py-2 text-left text-[13px] font-extrabold leading-tight">{meal.name}</p>
+    </div>
+  )
+}
+
+export function AppPreview() {
+  return (
+    <div className="flex h-full flex-col pt-10">
+      <div className="flex items-center justify-between px-4 pb-3">
+        <h2 className="text-[30px] font-extrabold leading-none tracking-tight">Meals</h2>
+        <div className="flex items-center gap-2.5 text-[var(--accent)]">
+          <SlidersHorizontal size={18} />
+          <Plus size={20} />
+        </div>
+      </div>
+
+      <div className="grid flex-1 grid-cols-2 content-start gap-2.5 overflow-hidden px-3">
+        {meals.map((meal, index) => (
+          <Rise
+            key={meal.name}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12 + index * 0.08 }}
+          >
+            <MealCard meal={meal} />
+          </Rise>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-4 border-t px-1 pb-3 pt-2 text-[9px] font-extrabold" style={{ borderColor: 'var(--line)' }}>
+        <Tab icon={List} label="Meals" active />
+        <Tab icon={Calendar} label="Plan" />
+        <Tab icon={Settings} label="Settings" />
+        <Tab icon={Search} label="Search" />
+      </div>
+    </div>
+  )
+}
+
+function Tab({ icon, label, active = false }) {
+  const Icon = icon
+  return (
+    <div className={`flex flex-col items-center gap-0.5 ${active ? 'text-[var(--accent)]' : 'text-[var(--muted)]'}`}>
+      <Icon size={16} />
+      {label}
+    </div>
+  )
 }

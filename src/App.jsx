@@ -1,221 +1,175 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Smartphone, Calendar, ShoppingCart, ChefHat, CheckCircle2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { PhoneFrame, AppScreenshotPlaceholder } from './components/PhoneFrame'
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom'
+import { Calendar, Camera, Download, Search, Sparkles, UtensilsCrossed } from 'lucide-react'
+import { PhoneFrame, AppPreview } from './components/PhoneFrame'
 import { FeatureCard } from './components/FeatureCard'
-import appIcon from './assets/appicon.png'
+import { SiteFooter, SiteHeader } from './components/SiteChrome'
+import { PrivacyPolicy } from './pages/PrivacyPolicy'
+import { TermsOfService } from './pages/TermsOfService'
 import appStoreBadge from './assets/appstore.png'
 
+const Fade = motion.div
+
+const features = [
+  {
+    icon: <Sparkles size={22} />,
+    title: 'Brand new look',
+    description: 'Warm colors, rounded photo cards, and a lighter layout from the meals library to the week plan.',
+  },
+  {
+    icon: <Search size={22} />,
+    title: 'Search everything',
+    description: 'The Search tab finds a meal by name, or by the day and period it is planned.',
+  },
+  {
+    icon: <Calendar size={22} />,
+    title: 'Your week, your start day',
+    description: 'Choose the day the plan begins. The list and the week calendar follow that choice.',
+  },
+  {
+    icon: <Download size={22} />,
+    title: 'Export your data',
+    description: 'Save your meals and the weekly plan as a JSON file you can keep.',
+  },
+  {
+    icon: <UtensilsCrossed size={22} />,
+    title: 'Breakfast, lunch, and dinner',
+    description: 'Assign meals to each part of the day and review the whole week on one page.',
+  },
+  {
+    icon: <Camera size={22} />,
+    title: 'Photos, time, and calories',
+    description: 'A picture, a name, prep time, and notes. Calories stay optional.',
+  },
+]
+
 function Home({ darkMode, setDarkMode }) {
+  useEffect(() => {
+    if (window.location.hash === '#features') {
+      document.getElementById('features')?.scrollIntoView()
+    }
+  }, [])
+
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden bg-white text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50 transition-colors duration-300">
+    <div className="app-canvas flex min-h-screen flex-col overflow-x-hidden">
+      <SiteHeader darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 glass border-b border-zinc-100 dark:border-zinc-800/50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="font-bold text-xl tracking-tight flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 flex items-center justify-center">
-              <img src={appIcon} alt="Meals" className="w-full h-full object-cover" />
-            </div>
-            Meals
-          </span>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-            aria-label="Toggle Dark Mode"
-          >
-            {darkMode ? '☀️' : '🌙'}
-          </button>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <main className="flex-grow pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-
-          {/* Hero Content */}
-          <div className="text-center lg:text-left order-2 lg:order-1">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
+      <main className="flex-grow pb-20 pt-32">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2">
+          <div className="order-2 text-center lg:order-1 lg:text-left">
+            <Fade
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.7 }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-xs font-medium text-yellow-700 dark:text-yellow-400 mb-6 border border-yellow-200 dark:border-yellow-800/50">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
-                </span>
-                Plan. Shop. Cook.
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-soft)] px-3 py-1 text-xs font-extrabold text-[var(--accent)]">
+                <Sparkles size={14} />
+                New in 2.0
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400 leading-[1.2] pb-2">
-                Meal planning <br /> done right.
+              <h1 className="mb-6 text-5xl font-extrabold leading-[1.05] tracking-tight md:text-6xl">
+                Your meals.
+                <br />
+                The whole week.
               </h1>
-              <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
-                Organize your weekly meals, generate shopping lists automatically, and discover new recipes.
+              <p className="mx-auto mb-8 max-w-xl text-lg font-semibold leading-relaxed text-[var(--muted)] lg:mx-0">
+                Save the meals you cook, plan breakfast, lunch, and dinner, and find any of them from Search. Everything stays on your iPhone.
               </p>
-
-              <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
                 <a
-                  href="https://apps.apple.com/es/app/meals-weekly-planner/id1612862108"
-                  className="hover:scale-105 transition-transform active:scale-95 transition-all duration-300"
+                  href="https://apps.apple.com/app/id1612862108"
+                  className="transition-transform hover:scale-105 active:scale-95"
                 >
-                  <img
-                    src={appStoreBadge}
-                    alt="Download on the App Store"
-                    className="h-[52px] w-auto"
-                  />
+                  <img src={appStoreBadge} alt="Download on the App Store" className="h-[52px] w-auto" />
                 </a>
-                <button className="px-8 py-4 rounded-full font-medium text-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-zinc-600 dark:text-zinc-300">
-                  Learn more
-                </button>
+                <a
+                  href="#features"
+                  className="rounded-full px-6 py-3 text-base font-extrabold text-[var(--accent)] ring-2 ring-[var(--accent)]/40 transition-colors hover:bg-[var(--accent-soft)]"
+                >
+                  See what’s new
+                </a>
               </div>
-            </motion.div>
+              <div className="playful-card mx-auto mt-8 inline-flex items-center gap-3 p-4 text-left lg:mx-0">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <Search size={18} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[var(--muted)]">Search</p>
+                  <p className="text-base font-extrabold">Pancakes · Monday</p>
+                </div>
+              </div>
+            </Fade>
           </div>
 
-          {/* Hero Image / Phone Frame */}
-          <div className="order-1 lg:order-2 flex justify-center perspective-1000">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 1, type: "spring" }}
+          <div className="order-1 flex justify-center lg:order-2">
+            <Fade
+              initial={{ opacity: 0, scale: 0.94, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, type: 'spring' }}
               className="relative"
             >
               <PhoneFrame>
-                <AppScreenshotPlaceholder />
+                <AppPreview />
               </PhoneFrame>
-
-              {/* Floating Badge */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-                className="absolute top-1/3 -right-6 lg:-right-12 bg-white dark:bg-zinc-800 p-4 rounded-2xl shadow-xl border border-zinc-100 dark:border-zinc-700/50"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center text-yellow-600 dark:text-yellow-400">
-                    <ChefHat size={20} />
-                  </div>
-                  <div>
-                    <p className="text-xs text-zinc-500">Weekly Plan</p>
-                    <p className="font-bold text-lg text-zinc-900 dark:text-white">Ready</p>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
+            </Fade>
           </div>
         </div>
 
-        {/* Features Section */}
-        <section id="features" className="max-w-7xl mx-auto px-6 py-32">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Simplify Your Kitchen</h2>
-            <p className="text-zinc-500 text-lg max-w-2xl mx-auto">Everything you need to master your meal prep routine.</p>
+        <section id="features" className="mx-auto max-w-7xl scroll-mt-24 px-6 py-28">
+          <div className="mb-14 text-center">
+            <h2 className="mb-4 text-3xl font-extrabold tracking-tight md:text-5xl">A fresher Meals</h2>
+            <p className="mx-auto max-w-2xl text-lg font-semibold text-[var(--muted)]">
+              Version 2.0 redesigns the app and adds search, a week that starts when you want, and a way to take your data with you.
+            </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <FeatureCard
-              delay={0.2}
-              icon={<Calendar className="text-yellow-500" />}
-              title="Weekly Planner"
-              description="Drag and drop meals to plan your week in seconds. Keep track of breakfast, lunch, and dinner."
-            />
-            <FeatureCard
-              delay={0.4}
-              icon={<ShoppingCart className="text-orange-500" />}
-              title="Auto Shopping List"
-              description="Ingredients are automatically added to your shopping list when you plan a meal."
-            />
-            <FeatureCard
-              delay={0.6}
-              icon={<ChefHat className="text-green-500" />}
-              title="Recipe Organizer"
-              description="Save your favorite recipes, add photos, and keep everything in one place."
-            />
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature, index) => (
+              <FeatureCard key={feature.title} delay={0.08 * index} {...feature} />
+            ))}
           </div>
         </section>
 
-        {/* Privacy Preview */}
-        <section className="max-w-7xl mx-auto px-6 pb-32">
-          <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 rounded-[2.5rem] p-8 md:p-16 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-yellow-500/10 text-yellow-500 mb-6">
-              <CheckCircle2 size={32} />
+        <section className="mx-auto max-w-7xl px-6 pb-8">
+          <div className="playful-card px-8 py-14 text-center md:px-16">
+            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-[22px] bg-[var(--accent-soft)] text-[var(--accent)]">
+              <Sparkles size={28} />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Your Data Stays Yours</h2>
-            <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
-              Privacy isn't a feature; it's a foundation. Meals collects <strong>zero data</strong>.
-              Everything remains on your device and iCloud.
+            <h2 className="mb-4 text-3xl font-extrabold tracking-tight md:text-4xl">Your data stays yours</h2>
+            <p className="mx-auto mb-8 max-w-2xl text-lg font-semibold leading-relaxed text-[var(--muted)]">
+              Meals does not collect personal data. Your meals and weekly plan stay on your iPhone, and you can export them whenever you want. No account required.
             </p>
-            <Link
-              to="/privacy"
-              className="text-yellow-500 font-medium hover:underline text-lg inline-flex items-center gap-2"
-            >
-              Read our full Privacy Policy
+            <Link to="/privacy" className="text-lg font-extrabold text-[var(--accent)] hover:underline">
+              Read the Privacy Policy
             </Link>
           </div>
         </section>
-
       </main>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-zinc-200 dark:border-zinc-800">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center bg-zinc-50/50 dark:bg-zinc-900/50 rounded-3xl p-8 mb-4">
-          <div className="mb-4 md:mb-0 text-center md:text-left">
-            <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
-              <div className="w-8 h-8 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
-                <img src={appIcon} alt="Meals" className="w-full h-full object-cover" />
-              </div>
-              <span className="font-bold text-2xl tracking-tight">Meals</span>
-            </div>
-            <p className="text-zinc-500 text-sm">Meal planning done right.</p>
-          </div>
-          <div className="flex gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            <Link to="/privacy" className="hover:text-black dark:hover:text-white transition-colors">Privacy</Link>
-            <Link to="/terms" className="hover:text-black dark:hover:text-white transition-colors">Terms</Link>
-            <a href="mailto:meals@cocoataster.com" className="hover:text-black dark:hover:text-white transition-colors">Contact</a>
-          </div>
-        </div>
-        <div className="text-center text-zinc-400 text-xs">
-          &copy; {new Date().getFullYear()} Meals App. All rights reserved.
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { PrivacyPolicy } from './pages/PrivacyPolicy'
-import { TermsOfService } from './pages/TermsOfService'
-
 function App() {
-  // Default to dark mode as requested, but also check system preference
-  const [darkMode, setDarkMode] = useState(true)
+  const [darkMode, setDarkMode] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches)
 
   useEffect(() => {
-    // Check system preference initially
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    setDarkMode(mediaQuery.matches)
-
-    // Listen for OS theme changes
-    const handler = (e) => setDarkMode(e.matches)
+    const handler = (event) => setDarkMode(event.matches)
     mediaQuery.addEventListener('change', handler)
     return () => mediaQuery.removeEventListener('change', handler)
   }, [])
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    document.documentElement.classList.toggle('dark', darkMode)
   }, [darkMode])
 
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy darkMode={darkMode} setDarkMode={setDarkMode} />} />
+        <Route path="/terms" element={<TermsOfService darkMode={darkMode} setDarkMode={setDarkMode} />} />
       </Routes>
     </Router>
   )

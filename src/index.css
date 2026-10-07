@@ -3,41 +3,80 @@
 @config "../tailwind.config.js";
 
 :root {
-  /* Light Mode */
-  --background: 0 0% 100%;
-  /* White */
-  --foreground: 240 10% 3.9%;
-  /* Zinc 950 */
-  --primary: 240 5.9% 10%;
-  /* Zinc 900 */
-  --secondary: 240 4.8% 95.9%;
-  /* Zinc 100 */
+  --canvas: #fff5e8;
+  --ink: #2c1814;
+  --muted: #8a655c;
+  --accent: #ed402e;
+  --accent-soft: rgba(237, 64, 46, 0.12);
+  --card: rgba(255, 255, 255, 0.82);
+  --line: rgba(44, 24, 20, 0.08);
+  --glow: rgba(237, 64, 46, 0.16);
+  color-scheme: light;
 }
 
-html[class="dark"] {
-  /* Dark Mode */
-  --background: 240 10% 3.9%;
-  /* Zinc 950 */
-  --foreground: 0 0% 98%;
-  /* White */
-  --primary: 0 0% 98%;
-  /* White */
-  --secondary: 240 3.7% 15.9%;
-  /* Zinc 800 */
+html.dark {
+  --canvas: #1c1210;
+  --ink: #fff5e8;
+  --muted: #c4a59c;
+  --accent: #ff564d;
+  --accent-soft: rgba(255, 86, 77, 0.18);
+  --card: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.1);
+  --glow: rgba(255, 86, 77, 0.28);
+  color-scheme: dark;
 }
 
 @layer base {
   body {
-    @apply bg-white text-zinc-950 antialiased selection:bg-yellow-200 selection:text-black dark:bg-zinc-950 dark:text-zinc-50 dark:selection:bg-yellow-800 dark:selection:text-white transition-colors duration-300;
+    @apply antialiased;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: Nunito, ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: white;
   }
 }
 
-/* Utilities for glassmorphism if needed */
-.glass {
-  @apply bg-white/70 backdrop-blur-lg border border-white/20 dark:bg-black/70 dark:border-white/10;
+.app-canvas {
+  background-color: var(--canvas);
+  background-image:
+    radial-gradient(ellipse 560px 460px at 100% -8%, var(--glow), transparent 68%),
+    radial-gradient(ellipse 620px 500px at -8% 108%, rgba(255, 149, 0, 0.16), transparent 70%);
+  color: var(--ink);
 }
 
-/* Custom Scrollbar for Phone Frame */
+.glass {
+  background: color-mix(in srgb, var(--canvas) 78%, transparent);
+  backdrop-filter: blur(16px);
+  border-color: var(--line);
+}
+
+.playful-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  box-shadow: 0 12px 28px rgba(44, 24, 20, 0.08);
+}
+
+html.dark .playful-card {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.playful-button {
+  color: white;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ed402e, #ff9500);
+  box-shadow: 0 10px 22px rgba(237, 64, 46, 0.32);
+}
+
+html.dark .playful-button {
+  background: linear-gradient(135deg, #ff564d, #ff9f0a);
+  box-shadow: 0 10px 22px rgba(255, 86, 77, 0.28);
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

@@ -1,34 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
+import { SiteFooter, SiteHeader } from '../components/SiteChrome'
 
-export function TermsOfService() {
-    return (
-        <div className="min-h-screen bg-white text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50 p-6 md:p-12">
-            <div className="max-w-3xl mx-auto">
-                <Link to="/" className="inline-flex items-center gap-2 text-zinc-500 hover:text-black dark:hover:text-white mb-8 transition-colors">
-                    <ArrowLeft size={20} />
-                    Back to Home
-                </Link>
-
-                <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
-
-                <div className="prose dark:prose-invert space-y-6 text-zinc-600 dark:text-zinc-400">
-                    <p>
-                        By downloading or using the Meals app, these terms will automatically apply to you. You should make sure therefore that you read them carefully before using the app.
-                    </p>
-
-                    <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">License</h2>
-                    <p>
-                        Meals is free to download and use. We reserve the right to make changes to the app or to charge for its services, at any time and for any reason.
-                    </p>
-
-                    <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Updates</h2>
-                    <p>
-                        The app is currently available on iOS. The requirements for the system(and for any additional systems we decide to extend the availability of the app to) may change, and you’ll need to download the updates if you want to keep using the app.
-                    </p>
-                </div>
-            </div>
-        </div>
-    );
+export function TermsOfService({ darkMode, setDarkMode }) {
+  return (
+    <div className="app-canvas flex min-h-screen flex-col">
+      <SiteHeader darkMode={darkMode} setDarkMode={setDarkMode} />
+      <main className="mx-auto w-full max-w-3xl flex-grow space-y-6 px-6 pb-16 pt-28 font-semibold text-[var(--muted)]">
+        <Link to="/" className="inline-flex items-center gap-2 font-bold text-[var(--muted)] hover:text-[var(--ink)]">
+          <ArrowLeft size={18} />
+          Back to Home
+        </Link>
+        <h1 className="text-4xl font-extrabold tracking-tight text-[var(--ink)]">Terms of Use</h1>
+        <p>
+          By downloading or using Meals, these terms apply to you. Please read them before using the app.
+        </p>
+        <h2 className="text-xl font-extrabold text-[var(--ink)]">License</h2>
+        <p>
+          Meals is free to download and use. Planning, your meal library, and calorie notes stay available without an account. We may change the app or charge for additional services in the future.
+        </p>
+        <h2 className="text-xl font-extrabold text-[var(--ink)]">Your content</h2>
+        <p>
+          Recipes, photos, and week plans you add belong to you. They stay on your device. You can export them from Settings.
+        </p>
+        <h2 className="text-xl font-extrabold text-[var(--ink)]">Updates</h2>
+        <p>
+          Meals is available on iOS. System requirements may change, and you will need to install updates to keep using the app.
+        </p>
+      </main>
+      <SiteFooter />
+    </div>
+  )
 }
