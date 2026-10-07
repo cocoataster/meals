@@ -4,11 +4,13 @@ on:
   push:
     branches: [ "main", "master" ]
 
-# Grant GITHUB_TOKEN the permissions needed to be a GitHub Pages publisher
+# Grant GITHUB_TOKEN the permissions needed to be a GitHub Pages publisher.
+# actions: read is used to see when the branch publisher has finished.
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 concurrency:
   group: "pages"
@@ -45,6 +47,30 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Wait for the branch Pages deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Pages is still set to publish the main branch. That Jekyll run does
+          # not include the Vite build, and it finishes just after this workflow,
+          # replacing it. /meals/privacy then 404s because privacy.html exists
+          # only in dist. Deploy the built site after that run has completed.
+          for attempt in $(seq 1 36); do
+            status=$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --commit "$GITHUB_SHA" \
+              --limit 20 \
+              --json workflowName,status \
+              --jq '.[] | select(.workflowName == "pages-build-deployment") | .status' \
+              2>/dev/null | head -n 1 || true)
+            echo "pages-build-deployment: ${status:-not-started} (attempt $attempt)"
+            if [ "$status" = "completed" ]; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Branch Pages build did not finish in time. Deploying the Vite site anyway."
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
