@@ -8,11 +8,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Meals Palette (Yellow/Black)
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-        primary: 'var(--primary)',
-        secondary: 'var(--secondary)',
+        cream: '#FAF5EF',
+        ink: '#1C1C1E',
+        mute: '#5E686C',
+        bowl: '#c23b32',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

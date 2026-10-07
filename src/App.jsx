@@ -1,219 +1,129 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Smartphone, Calendar, ShoppingCart, ChefHat, CheckCircle2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { PhoneFrame, AppScreenshotPlaceholder } from './components/PhoneFrame'
-import { FeatureCard } from './components/FeatureCard'
-import appIcon from './assets/appicon.png'
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom'
+import { DeviceShot } from './components/PhoneFrame'
+import { StepCard } from './components/FeatureCard'
+import { APP_STORE_URL, SiteFooter, SiteHeader } from './components/SiteChrome'
 import appStoreBadge from './assets/appstore.png'
+import { PrivacyPolicy } from './pages/PrivacyPolicy'
+import { TermsOfService } from './pages/TermsOfService'
+import addShot from './assets/screens/add.webp'
+import findShot from './assets/screens/find.webp'
+import chooseShot from './assets/screens/choose.webp'
+import planShot from './assets/screens/plan.webp'
 
-function Home({ darkMode, setDarkMode }) {
+const features = [
+  {
+    id: 'add',
+    kicker: 'Add',
+    title: 'Take a picture, name your meal, and add a few details.',
+    text: 'Capture the dishes you already cook. A photo, a name, how long it takes, the calories, and any notes you want to remember next time.',
+    image: addShot,
+    alt: 'New Meal screen with a photo of pancakes, a name field, and sections for image and information.',
+  },
+  {
+    id: 'find',
+    kicker: 'Find',
+    title: 'Search or filter the meals you actually make.',
+    text: 'Your cookbook stays short and personal. Search by name, or filter the list, when you want that one dish and not a catalogue of recipes you will never cook.',
+    image: findShot,
+    alt: 'Meals list with search, a filter button, and cards showing cook time and calories.',
+  },
+  {
+    id: 'choose',
+    kicker: 'Choose',
+    title: 'What do you fancy? Make the choice.',
+    text: 'Pick breakfast, lunch, or dinner for the day. Each meal shows its photo, time, and calories, so the decision takes a second.',
+    image: chooseShot,
+    alt: 'Monday meal picker with breakfast, lunch, and dinner buttons under each dish.',
+  },
+  {
+    id: 'plan',
+    kicker: 'Plan',
+    title: 'See the whole week, one day at a time.',
+    text: 'The week plan lines up what you chose, with cook time and calories on the photo. Keep a different plan for every week of the year.',
+    image: planShot,
+    alt: 'Week Plan for Monday showing pancakes for breakfast and pizza for lunch, each with time and calories.',
+  },
+]
+
+function Home() {
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden bg-white text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50 transition-colors duration-300">
-
-      {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 glass border-b border-zinc-100 dark:border-zinc-800/50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="font-bold text-xl tracking-tight flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 flex items-center justify-center">
-              <img src={appIcon} alt="Meals" className="w-full h-full object-cover" />
+    <div className="min-h-screen bg-[#FAF5EF] text-[#1C1C1E]">
+      <SiteHeader />
+      <main>
+        <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-8 pt-14 lg:grid-cols-[1.1fr_0.9fr] lg:pt-20">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#c23b32]">Weekly meal planner</p>
+            <h1 className="mt-4 max-w-xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
+              Plan the meals you already love.
+            </h1>
+            <p className="mt-5 max-w-lg text-lg leading-relaxed text-[#5E686C]">
+              Add a photo, keep the time and calories, then choose breakfast, lunch, and dinner. Meals turns the dishes you cook into a week you can see.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a href={APP_STORE_URL} className="inline-flex transition-transform hover:scale-[1.03]">
+                <img src={appStoreBadge} alt="Download on the App Store" className="h-[52px] w-auto" />
+              </a>
+              <a href="#features" className="text-sm font-semibold text-[#1C1C1E] underline decoration-black/20 underline-offset-4 hover:decoration-black">
+                See Add, Find, Choose, Plan
+              </a>
             </div>
-            Meals
-          </span>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-            aria-label="Toggle Dark Mode"
-          >
-            {darkMode ? '☀️' : '🌙'}
-          </button>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <main className="flex-grow pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-
-          {/* Hero Content */}
-          <div className="text-center lg:text-left order-2 lg:order-1">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-xs font-medium text-yellow-700 dark:text-yellow-400 mb-6 border border-yellow-200 dark:border-yellow-800/50">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
-                </span>
-                Plan. Shop. Cook.
-              </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400 leading-[1.2] pb-2">
-                Meal planning <br /> done right.
-              </h1>
-              <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
-                Organize your weekly meals, generate shopping lists automatically, and discover new recipes.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                <a
-                  href="https://apps.apple.com/es/app/meals-weekly-planner/id1612862108"
-                  className="hover:scale-105 transition-transform active:scale-95 transition-all duration-300"
-                >
-                  <img
-                    src={appStoreBadge}
-                    alt="Download on the App Store"
-                    className="h-[52px] w-auto"
-                  />
-                </a>
-                <button className="px-8 py-4 rounded-full font-medium text-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-zinc-600 dark:text-zinc-300">
-                  Learn more
-                </button>
-              </div>
-            </motion.div>
           </div>
+          <DeviceShot
+            src={planShot}
+            alt="Week Plan on iPhone, with Monday's breakfast and lunch."
+          />
+        </section>
 
-          {/* Hero Image / Phone Frame */}
-          <div className="order-1 lg:order-2 flex justify-center perspective-1000">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 1, type: "spring" }}
-              className="relative"
-            >
-              <PhoneFrame>
-                <AppScreenshotPlaceholder />
-              </PhoneFrame>
-
-              {/* Floating Badge */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-                className="absolute top-1/3 -right-6 lg:-right-12 bg-white dark:bg-zinc-800 p-4 rounded-2xl shadow-xl border border-zinc-100 dark:border-zinc-700/50"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center text-yellow-600 dark:text-yellow-400">
-                    <ChefHat size={20} />
-                  </div>
-                  <div>
-                    <p className="text-xs text-zinc-500">Weekly Plan</p>
-                    <p className="font-bold text-lg text-zinc-900 dark:text-white">Ready</p>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Features Section */}
-        <section id="features" className="max-w-7xl mx-auto px-6 py-32">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Simplify Your Kitchen</h2>
-            <p className="text-zinc-500 text-lg max-w-2xl mx-auto">Everything you need to master your meal prep routine.</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <FeatureCard
-              delay={0.2}
-              icon={<Calendar className="text-yellow-500" />}
-              title="Weekly Planner"
-              description="Drag and drop meals to plan your week in seconds. Keep track of breakfast, lunch, and dinner."
-            />
-            <FeatureCard
-              delay={0.4}
-              icon={<ShoppingCart className="text-orange-500" />}
-              title="Auto Shopping List"
-              description="Ingredients are automatically added to your shopping list when you plan a meal."
-            />
-            <FeatureCard
-              delay={0.6}
-              icon={<ChefHat className="text-green-500" />}
-              title="Recipe Organizer"
-              description="Save your favorite recipes, add photos, and keep everything in one place."
-            />
+        <section id="features" className="mx-auto max-w-6xl px-5 py-16">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StepCard kicker="Add" title="A photo and the details" text="Name the meal, set the time and calories, and keep a note." />
+            <StepCard kicker="Find" title="Your own cookbook" text="Search and filter the list of meals you like to cook." />
+            <StepCard kicker="Choose" title="Breakfast, lunch, dinner" text="Assign a meal to the slot you need for that day." />
+            <StepCard kicker="Plan" title="Every week of the year" text="A plan for each week, with time and calories on each dish." />
           </div>
         </section>
 
-        {/* Privacy Preview */}
-        <section className="max-w-7xl mx-auto px-6 pb-32">
-          <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 rounded-[2.5rem] p-8 md:p-16 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-yellow-500/10 text-yellow-500 mb-6">
-              <CheckCircle2 size={32} />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Your Data Stays Yours</h2>
-            <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
-              Privacy isn't a feature; it's a foundation. Meals collects <strong>zero data</strong>.
-              Everything remains on your device and iCloud.
-            </p>
-            <Link
-              to="/privacy"
-              className="text-yellow-500 font-medium hover:underline text-lg inline-flex items-center gap-2"
+        <div className="mx-auto max-w-6xl space-y-20 px-5 pb-20">
+          {features.map((feature, index) => (
+            <section
+              id={feature.id}
+              key={feature.id}
+              className="grid items-center gap-10 lg:grid-cols-2"
             >
-              Read our full Privacy Policy
+              <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#c23b32]">{feature.kicker}</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{feature.title}</h2>
+                <p className="mt-4 max-w-md text-lg leading-relaxed text-[#5E686C]">{feature.text}</p>
+              </div>
+              <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
+                <DeviceShot src={feature.image} alt={feature.alt} />
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <section className="mx-auto max-w-6xl px-5 pb-20">
+          <div className="rounded-[2rem] bg-[#1C1C1E] px-8 py-12 text-center text-[#FAF5EF] sm:px-16">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Your meals stay on your iPhone.</h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/70">
+              Meals collects no data. There is no account to create, and nothing you add is sent to us.
+            </p>
+            <Link to="/privacy" className="mt-6 inline-flex text-sm font-semibold text-white underline decoration-white/30 underline-offset-4 hover:decoration-white">
+              Read the privacy policy
             </Link>
           </div>
         </section>
-
       </main>
-
-      {/* Footer */}
-      <footer className="py-12 border-t border-zinc-200 dark:border-zinc-800">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center bg-zinc-50/50 dark:bg-zinc-900/50 rounded-3xl p-8 mb-4">
-          <div className="mb-4 md:mb-0 text-center md:text-left">
-            <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
-              <div className="w-8 h-8 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
-                <img src={appIcon} alt="Meals" className="w-full h-full object-cover" />
-              </div>
-              <span className="font-bold text-2xl tracking-tight">Meals</span>
-            </div>
-            <p className="text-zinc-500 text-sm">Meal planning done right.</p>
-          </div>
-          <div className="flex gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            <Link to="/privacy" className="hover:text-black dark:hover:text-white transition-colors">Privacy</Link>
-            <Link to="/terms" className="hover:text-black dark:hover:text-white transition-colors">Terms</Link>
-            <a href="mailto:meals@cocoataster.com" className="hover:text-black dark:hover:text-white transition-colors">Contact</a>
-          </div>
-        </div>
-        <div className="text-center text-zinc-400 text-xs">
-          &copy; {new Date().getFullYear()} Meals App. All rights reserved.
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { PrivacyPolicy } from './pages/PrivacyPolicy'
-import { TermsOfService } from './pages/TermsOfService'
-
 function App() {
-  // Default to dark mode as requested, but also check system preference
-  const [darkMode, setDarkMode] = useState(true)
-
-  useEffect(() => {
-    // Check system preference initially
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    setDarkMode(mediaQuery.matches)
-
-    // Listen for OS theme changes
-    const handler = (e) => setDarkMode(e.matches)
-    mediaQuery.addEventListener('change', handler)
-    return () => mediaQuery.removeEventListener('change', handler)
-  }, [])
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [darkMode])
-
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <Routes>
-        <Route path="/" element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
       </Routes>

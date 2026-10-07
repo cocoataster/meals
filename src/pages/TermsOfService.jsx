@@ -1,34 +1,37 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom'
+import { SiteFooter, SiteHeader } from '../components/SiteChrome'
 
 export function TermsOfService() {
-    return (
-        <div className="min-h-screen bg-white text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50 p-6 md:p-12">
-            <div className="max-w-3xl mx-auto">
-                <Link to="/" className="inline-flex items-center gap-2 text-zinc-500 hover:text-black dark:hover:text-white mb-8 transition-colors">
-                    <ArrowLeft size={20} />
-                    Back to Home
-                </Link>
+  return (
+    <div className="min-h-screen bg-[#FAF5EF] text-[#1C1C1E]">
+      <SiteHeader />
+      <main className="mx-auto max-w-2xl px-5 py-12">
+        <Link to="/" className="text-sm font-medium text-[#5E686C] hover:text-[#1C1C1E]">
+          ← Back to Meals
+        </Link>
+        <h1 className="mt-6 text-4xl font-semibold tracking-tight">Terms of Service</h1>
 
-                <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
-
-                <div className="prose dark:prose-invert space-y-6 text-zinc-600 dark:text-zinc-400">
-                    <p>
-                        By downloading or using the Meals app, these terms will automatically apply to you. You should make sure therefore that you read them carefully before using the app.
-                    </p>
-
-                    <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">License</h2>
-                    <p>
-                        Meals is free to download and use. We reserve the right to make changes to the app or to charge for its services, at any time and for any reason.
-                    </p>
-
-                    <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Updates</h2>
-                    <p>
-                        The app is currently available on iOS. The requirements for the system(and for any additional systems we decide to extend the availability of the app to) may change, and you’ll need to download the updates if you want to keep using the app.
-                    </p>
-                </div>
-            </div>
+        <div className="mt-8 space-y-6 leading-relaxed text-[#3f484c]">
+          <p>
+            By downloading or using Meals, these terms apply to you. Read them before you use the app.
+          </p>
+          <h2 className="text-xl font-semibold text-[#1C1C1E]">License</h2>
+          <p>
+            Meals is free to download and use on iPhone. We may change the app, or charge for a service, at any time and for any reason.
+          </p>
+          <h2 className="text-xl font-semibold text-[#1C1C1E]">Updates</h2>
+          <p>
+            Meals is available on iOS. System requirements can change, and you will need to install updates to keep using the app.
+          </p>
+          <h2 className="text-xl font-semibold text-[#1C1C1E]">Contact</h2>
+          <p>
+            <a href="mailto:meals@cocoataster.com" className="font-medium text-[#c23b32] underline decoration-[#c23b32]/30 underline-offset-4">
+              meals@cocoataster.com
+            </a>
+          </p>
         </div>
-    );
+      </main>
+      <SiteFooter />
+    </div>
+  )
 }
