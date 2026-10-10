@@ -13,10 +13,10 @@ function clientRoutes() {
   return [...source.matchAll(/\bpath="\/([^"]+)"/g)].map((match) => match[1])
 }
 
-// GitHub Pages serves privacy.html at /privacy (HTTP 200, no redirect), which
-// is how https://cocoataster.com/impulses/privacy is published. A privacy/
-// directory does not: /privacy/ is a different path and /privacy still 404s.
-// 404.html covers any other client route.
+// GitHub Pages serves privacy.html at /privacy with HTTP 200 and no redirect.
+// /privacy/ is a different path: only privacy/index.html makes that URL return
+// 200. The App Store privacy link has a trailing slash, and other links do not,
+// so each route is published both ways. 404.html covers any other client route.
 function githubPagesSpaFallback() {
   return {
     name: 'github-pages-spa-fallback',
@@ -26,9 +26,13 @@ function githubPagesSpaFallback() {
       const indexPath = resolve(options.dir, 'index.html')
       copyFileSync(indexPath, resolve(options.dir, '404.html'))
       for (const route of clientRoutes()) {
-        const target = resolve(options.dir, `${route}.html`)
-        mkdirSync(dirname(target), { recursive: true })
-        copyFileSync(indexPath, target)
+        const htmlTarget = resolve(options.dir, `${route}.html`)
+        mkdirSync(dirname(htmlTarget), { recursive: true })
+        copyFileSync(indexPath, htmlTarget)
+
+        const directoryIndex = resolve(options.dir, route, 'index.html')
+        mkdirSync(dirname(directoryIndex), { recursive: true })
+        copyFileSync(indexPath, directoryIndex)
       }
     },
   }
