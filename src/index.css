@@ -85,3 +85,18 @@ html.dark .playful-button {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary::after {
+  content: "+";
+  float: right;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+details[open] > summary::after {
+  content: "–";
+}

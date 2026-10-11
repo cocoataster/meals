@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '../components/SiteChrome'
@@ -5,10 +6,15 @@ import { SiteFooter, SiteHeader } from '../components/SiteChrome'
 const updated = 'October 11, 2026'
 
 export function TermsOfService({ darkMode, setDarkMode }) {
+  useEffect(() => {
+    document.documentElement.lang = 'en'
+    document.title = 'Terms of Use · Meals'
+  }, [])
+
   return (
     <div className="app-canvas flex min-h-screen flex-col">
       <SiteHeader darkMode={darkMode} setDarkMode={setDarkMode} />
-      <main className="mx-auto w-full max-w-3xl flex-grow space-y-6 px-6 pb-16 pt-28 font-semibold text-[var(--muted)]">
+      <main id="main" className="mx-auto w-full max-w-3xl flex-grow space-y-6 px-6 pb-16 pt-28 font-semibold text-[var(--muted)]">
         <Link to="/" className="inline-flex items-center gap-2 font-bold text-[var(--muted)] hover:text-[var(--ink)]">
           <ArrowLeft size={18} />
           Back to Home
