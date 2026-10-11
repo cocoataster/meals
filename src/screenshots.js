@@ -1,24 +1,12 @@
-// App Store Connect 2.0 screenshots live at:
-// public/screenshots/asc/{iphone-63,iphone-67,iphone-duo,ipad-13}/{en,es,ca}
-export const SCREENSHOT_DEVICES = ['iphone-67', 'iphone-63', 'iphone-duo', 'ipad-13']
+export const SCREENSHOT_WIDTH = 660
+export const SCREENSHOT_HEIGHT = 1434
+export const SCREENSHOT_FILES = ['01.webp', '02.webp', '03.webp', '04.webp', '05.webp']
 
-export function screenshotSrc(device, locale, file) {
+export function screenshotsFor(locale, alts) {
   const base = import.meta.env.BASE_URL
-  return `${base}screenshots/asc/${device}/${locale}/${file}`
-}
-
-export function screenshotsFor(manifest, locale) {
-  const items = []
-  for (const device of SCREENSHOT_DEVICES) {
-    const files = manifest[`${device}/${locale}`] ?? []
-    for (const file of files) {
-      items.push({
-        device,
-        file,
-        src: screenshotSrc(device, locale, file),
-        kind: device === 'ipad-13' ? 'ipad' : 'iphone',
-      })
-    }
-  }
-  return items
+  return SCREENSHOT_FILES.map((file, index) => ({
+    file,
+    src: `${base}screenshots/asc/${locale}/${file}`,
+    alt: alts[index] ?? alts[0],
+  }))
 }

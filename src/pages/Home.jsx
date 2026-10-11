@@ -4,11 +4,9 @@ import { CalendarDays, Search, Share2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { AppStoreBadge } from '../components/AppStoreBadge'
 import { FeatureCard } from '../components/FeatureCard'
-import { PhoneFrame, AppPreview } from '../components/PhoneFrame'
 import { SiteFooter, SiteHeader } from '../components/SiteChrome'
 import { pageCopy } from '../i18n'
-import { screenshotsFor } from '../screenshots'
-import screenshotManifest from 'virtual:screenshots'
+import { SCREENSHOT_HEIGHT, SCREENSHOT_WIDTH, screenshotsFor } from '../screenshots'
 
 const Fade = motion.div
 
@@ -29,8 +27,8 @@ function usePageMeta(t) {
 
 export function Home({ locale, darkMode, setDarkMode }) {
   const t = pageCopy(locale)
-  const shots = screenshotsFor(screenshotManifest, locale)
-  const heroShot = shots[0]
+  const shots = screenshotsFor(locale, t.screenshots.alts)
+  const [heroShot, ...moreShots] = shots
 
   usePageMeta(t)
 
@@ -67,35 +65,33 @@ export function Home({ locale, darkMode, setDarkMode }) {
               transition={{ duration: 0.8, type: 'spring' }}
               className="relative"
             >
-              {heroShot ? (
-                <img
-                  src={heroShot.src}
-                  alt={t.screenshots.hero}
-                  className="max-h-[640px] w-auto rounded-[2rem] shadow-2xl"
-                />
-              ) : (
-                <PhoneFrame>
-                  <AppPreview />
-                </PhoneFrame>
-              )}
+              <img
+                src={heroShot.src}
+                alt={heroShot.alt}
+                width={SCREENSHOT_WIDTH}
+                height={SCREENSHOT_HEIGHT}
+                className="h-auto w-[min(100%,280px)] md:w-[320px]"
+              />
             </Fade>
           </div>
         </div>
 
-        {shots.length > 1 ? (
-          <section aria-label={t.screenshots.iphone} className="mx-auto max-w-7xl px-6 pt-16">
-            <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
-              {shots.slice(1).map((shot) => (
-                <img
-                  key={`${shot.device}-${shot.file}`}
-                  src={shot.src}
-                  alt={shot.kind === 'ipad' ? t.screenshots.ipad : t.screenshots.iphone}
-                  className="h-72 w-auto shrink-0 rounded-[1.4rem] shadow-lg md:h-80"
-                />
-              ))}
-            </div>
-          </section>
-        ) : null}
+        <section className="mx-auto max-w-7xl px-6 pt-16">
+          <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory no-scrollbar">
+            {moreShots.map((shot) => (
+              <img
+                key={shot.file}
+                src={shot.src}
+                alt={shot.alt}
+                width={SCREENSHOT_WIDTH}
+                height={SCREENSHOT_HEIGHT}
+                loading="lazy"
+                decoding="async"
+                className="h-auto w-[180px] shrink-0 snap-center md:w-[200px]"
+              />
+            ))}
+          </div>
+        </section>
 
         <section id="benefits" className="mx-auto max-w-7xl scroll-mt-24 px-6 py-28">
           <div className="grid gap-5 md:grid-cols-3">

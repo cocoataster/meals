@@ -102,9 +102,13 @@ const copy = {
       language: 'Language',
     },
     screenshots: {
-      hero: 'Meals on iPhone',
-      iphone: 'Meals on iPhone',
-      ipad: 'Meals on iPad',
+      alts: [
+        'Your whole week at a glance.',
+        'Breakfast, lunch and dinner for every day, with several dishes per meal.',
+        'Find any recipe fast.',
+        'Save recipes with photos and ingredients, then search and filter them by tag.',
+        'Your meals stay yours.',
+      ],
     },
   },
   es: {
@@ -198,9 +202,13 @@ const copy = {
       language: 'Idioma',
     },
     screenshots: {
-      hero: 'Meals en iPhone',
-      iphone: 'Meals en iPhone',
-      ipad: 'Meals en iPad',
+      alts: [
+        'Toda tu semana, de un vistazo.',
+        'Desayuno, comida y cena para cada día, con varios platos en cada una.',
+        'Encuentra cualquier receta al momento.',
+        'Guarda recetas con fotos e ingredientes, y búscalas o fíltralas por etiquetas.',
+        'Tus comidas son solo tuyas.',
+      ],
     },
   },
   ca: {
@@ -294,9 +302,13 @@ const copy = {
       language: 'Idioma',
     },
     screenshots: {
-      hero: 'Meals a l\'iPhone',
-      iphone: 'Meals a l\'iPhone',
-      ipad: 'Meals a l\'iPad',
+      alts: [
+        'Tota la setmana d\'un cop d\'ull.',
+        'Esmorzar, dinar i sopar per a cada dia, amb diversos plats a cada àpat.',
+        'Troba qualsevol recepta en un moment.',
+        'Desa receptes amb fotos i ingredients, i cerca-les o filtra-les per etiquetes.',
+        'Els teus menjars són només teus.',
+      ],
     },
   },
 }

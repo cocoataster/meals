@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
@@ -6,38 +6,6 @@ import react from '@vitejs/plugin-react'
 import { LOCALES, SITE_ORIGIN, localeMeta, pageCopy } from './src/i18n.js'
 
 const projectRoot = dirname(fileURLToPath(import.meta.url))
-
-const SCREENSHOT_DEVICES = ['iphone-67', 'iphone-63', 'iphone-duo', 'ipad-13']
-
-function scanScreenshots() {
-  const root = resolve(projectRoot, 'public/screenshots/asc')
-  const manifest = {}
-  if (!existsSync(root)) return manifest
-  for (const device of SCREENSHOT_DEVICES) {
-    for (const locale of LOCALES) {
-      const dir = resolve(root, device, locale)
-      if (!existsSync(dir)) continue
-      const files = readdirSync(dir)
-        .filter((name) => /\.(png|jpe?g|webp)$/i.test(name))
-        .sort()
-      if (files.length) manifest[`${device}/${locale}`] = files
-    }
-  }
-  return manifest
-}
-
-function screenshotManifest() {
-  return {
-    name: 'screenshot-manifest',
-    resolveId(id) {
-      if (id === 'virtual:screenshots') return id
-    },
-    load(id) {
-      if (id !== 'virtual:screenshots') return
-      return `export default ${JSON.stringify(scanScreenshots())}`
-    },
-  }
-}
 
 function hreflangBlock() {
   const links = LOCALES.map((locale) => {
@@ -114,7 +82,7 @@ function githubPagesSpaFallback() {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  plugins: [react(), screenshotManifest(), githubPagesSpaFallback()],
+  plugins: [react(), githubPagesSpaFallback()],
   // Set base to relative to support deployment to subdirectories (like GitHub Pages)
   base: mode === 'production' ? '/meals/' : '/',
 }))
