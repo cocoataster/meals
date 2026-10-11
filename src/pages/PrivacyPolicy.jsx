@@ -1,29 +1,35 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Lock } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '../components/SiteChrome'
 
-const updated = 'October 10, 2026'
+const updated = 'October 11, 2026'
 
 export function PrivacyPolicy({ darkMode, setDarkMode }) {
+  useEffect(() => {
+    document.documentElement.lang = 'en'
+    document.title = 'Privacy Policy · Meals'
+  }, [])
+
   return (
     <div className="app-canvas flex min-h-screen flex-col">
       <SiteHeader darkMode={darkMode} setDarkMode={setDarkMode} />
-      <main className="mx-auto w-full max-w-3xl flex-grow px-6 pb-16 pt-28">
+      <main id="main" className="mx-auto w-full max-w-3xl flex-grow px-6 pb-16 pt-28">
         <Link to="/" className="mb-8 inline-flex items-center gap-2 font-bold text-[var(--muted)] hover:text-[var(--ink)]">
           <ArrowLeft size={18} />
           Back to Home
         </Link>
         <h1 className="mb-3 text-4xl font-extrabold tracking-tight">Privacy Policy</h1>
-        <p className="mb-6 text-sm font-bold text-[var(--muted)]">Last updated {updated}</p>
+        <p className="mb-6 text-sm font-bold text-[var(--muted)]">Effective / Last updated: {updated}</p>
         <p className="mb-8 text-lg font-semibold leading-relaxed text-[var(--muted)]">
-          Meals is built so your meal plans stay with you. There is no Meals account, and we do not collect your meals on a server of our own.
+          Meals is built so your meal plans stay with you. There is no Meals account, no analytics, and no tracking. We do not collect your meals on a server of our own.
         </p>
         <div className="playful-card mb-10 flex items-start gap-4 p-6">
           <Lock className="mt-1 shrink-0 text-[var(--accent)]" />
           <div>
             <h2 className="mb-2 text-lg font-extrabold">We don’t collect your data</h2>
             <p className="font-semibold text-[var(--muted)]">
-              Meals does not collect personal data, and we do not store or share it. What you add stays on your device. With Meals Pro, it can also stay in your private iCloud, which we cannot read.
+              Meals does not collect personal data, and we do not store or share it. The App Store privacy label is “Data Not Collected.” What you add stays on your device. Without Meals Pro, it stays only on that device. With Meals Pro, it can also stay in your private iCloud, which we cannot read.
             </p>
           </div>
         </div>
@@ -32,7 +38,7 @@ export function PrivacyPolicy({ darkMode, setDarkMode }) {
           <section className="space-y-3">
             <h2 className="text-2xl font-extrabold text-[var(--ink)]">On your device</h2>
             <p>
-              Your meals, ingredients, tags, week plan, and settings are stored on your iPhone. You can export your meals and weekly plan as a JSON file from Settings.
+              Your meals, ingredients, tags, week plan, and settings are stored on your iPhone. Settings always stay on the device. You can export your meals and weekly plan as a JSON file from Settings.
             </p>
           </section>
 
