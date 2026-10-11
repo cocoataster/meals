@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Lock } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '../components/SiteChrome'
@@ -5,10 +6,15 @@ import { SiteFooter, SiteHeader } from '../components/SiteChrome'
 const updated = 'October 11, 2026'
 
 export function PrivacyPolicy({ darkMode, setDarkMode }) {
+  useEffect(() => {
+    document.documentElement.lang = 'en'
+    document.title = 'Privacy Policy · Meals'
+  }, [])
+
   return (
     <div className="app-canvas flex min-h-screen flex-col">
       <SiteHeader darkMode={darkMode} setDarkMode={setDarkMode} />
-      <main className="mx-auto w-full max-w-3xl flex-grow px-6 pb-16 pt-28">
+      <main id="main" className="mx-auto w-full max-w-3xl flex-grow px-6 pb-16 pt-28">
         <Link to="/" className="mb-8 inline-flex items-center gap-2 font-bold text-[var(--muted)] hover:text-[var(--ink)]">
           <ArrowLeft size={18} />
           Back to Home
