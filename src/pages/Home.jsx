@@ -114,11 +114,11 @@ export function Home({ locale, darkMode, setDarkMode }) {
         <section id="compare" className="mx-auto max-w-7xl scroll-mt-24 px-6 pb-20">
           <div className="playful-card overflow-hidden p-6 md:p-10">
             <div className="overflow-x-auto" tabIndex={0}>
-              <table className="w-full min-w-[36rem] border-collapse text-left text-sm md:text-base">
+              <table className="w-full min-w-[32rem] border-collapse text-left text-sm md:text-base">
                 <caption className="sr-only">{`${t.compare.free} / ${t.compare.pro}`}</caption>
                 <thead>
                   <tr className="border-b" style={{ borderColor: 'var(--line)' }}>
-                    <th scope="col" className="py-3 pr-4 font-extrabold text-[var(--ink)]">
+                    <th scope="col" className="sticky left-0 z-10 bg-[var(--card)] py-3 pr-4 font-extrabold text-[var(--ink)]">
                       <span className="sr-only">{t.compare.featureLabel}</span>
                     </th>
                     <th scope="col" className="px-3 py-3 text-center font-extrabold text-[var(--ink)]">
@@ -134,7 +134,7 @@ export function Home({ locale, darkMode, setDarkMode }) {
                     const proOnly = t.compare.proIn[index]
                     return (
                       <tr key={row} className="border-b last:border-b-0" style={{ borderColor: 'var(--line)' }}>
-                        <th scope="row" className="py-3 pr-4 font-semibold text-[var(--ink)]">
+                        <th scope="row" className="sticky left-0 z-10 bg-[var(--card)] py-3 pr-4 font-semibold text-[var(--ink)]">
                           {row}
                         </th>
                         <td className="px-3 py-3 text-center font-extrabold">
